@@ -177,6 +177,18 @@ Inherits Canvas
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Sub AddControl(ctrl As DesktopUIControl, beforeSplitter As Boolean)
+		  // TODO: Check if the control is already there...
+		  
+		  If beforeSplitter Then  // Left or above splitter
+		    CtrlArrayBefore.Append ctrl
+		  Else
+		    CtrlArrayAfter.Append ctrl
+		  End If
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Sub AddControlNoResize(ctrl As ContainerControl, beforeSplitter As Boolean)
 		  If beforeSplitter Then  // Left or above splitter
 		    CtrlArrayBeforeNoResize.Append ctrl
@@ -214,6 +226,10 @@ Inherits Canvas
 		        RectControl(CtrlArrayAfter(i)).Top = RectControl(CtrlArrayAfter(i)).Top + dy
 		        RectControl(CtrlArrayAfter(i)).Height = RectControl(CtrlArrayAfter(i)).Height - dy
 		        
+		      ElseIf Me.CtrlArrayAfter(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayAfter(i)).Top = DesktopUIControl(CtrlArrayAfter(i)).Top + dy
+		        DesktopUIControl(CtrlArrayAfter(i)).Height = DesktopUIControl(CtrlArrayAfter(i)).Height - dy
+		        
 		      Else
 		        ContainerControl(CtrlArrayAfter(i)).Top = ContainerControl(CtrlArrayAfter(i)).Top + dy
 		        ContainerControl(CtrlArrayAfter(i)).Height = ContainerControl(CtrlArrayAfter(i)).Height - dy
@@ -225,6 +241,10 @@ Inherits Canvas
 		      If Me.CtrlArrayAfter(i) IsA RectControl Then
 		        RectControl(CtrlArrayAfter(i)).Left = RectControl(CtrlArrayAfter(i)).Left + dx
 		        RectControl(CtrlArrayAfter(i)).Width = RectControl(CtrlArrayAfter(i)).Width - dx
+		        
+		      ElseIf Me.CtrlArrayAfter(i) IsA DesktopUIControl then
+		        DesktopUIControl(CtrlArrayAfter(i)).Left = DesktopUIControl(CtrlArrayAfter(i)).Left + dx
+		        DesktopUIControl(CtrlArrayAfter(i)).Width = DesktopUIControl(CtrlArrayAfter(i)).Width - dx
 		        
 		      Else
 		        ContainerControl(CtrlArrayAfter(i)).Left = ContainerControl(CtrlArrayAfter(i)).Left + dx
@@ -254,6 +274,9 @@ Inherits Canvas
 		      If Me.CtrlArrayAfterNoResize(i) IsA RectControl Then
 		        RectControl(CtrlArrayAfterNoResize(i)).Top = RectControl(CtrlArrayAfterNoResize(i)).Top + dy
 		        
+		      ElseIf Me.CtrlArrayAfterNoResize(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayAfterNoResize(i)).Top = DesktopUIControl(CtrlArrayAfterNoResize(i)).Top + dy
+		        
 		      Else
 		        ContainerControl(CtrlArrayAfterNoResize(i)).Top = ContainerControl(CtrlArrayAfterNoResize(i)).Top + dy
 		        
@@ -263,6 +286,9 @@ Inherits Canvas
 		      
 		      If Me.CtrlArrayAfterNoResize(i) IsA RectControl Then
 		        RectControl(CtrlArrayAfterNoResize(i)).Left = RectControl(CtrlArrayAfterNoResize(i)).Left + dx
+		        
+		      ElseIf Me.CtrlArrayAfterNoResize(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayAfterNoResize(i)).Left = DesktopUIControl(CtrlArrayAfterNoResize(i)).Left + dx
 		        
 		      Else
 		        ContainerControl(CtrlArrayAfterNoResize(i)).Left = ContainerControl(CtrlArrayAfterNoResize(i)).Left + dx
@@ -291,6 +317,9 @@ Inherits Canvas
 		      If Me.CtrlArrayBefore(i) IsA RectControl Then
 		        RectControl(CtrlArrayBefore(i)).Height = RectControl(CtrlArrayBefore(i)).Height + dy
 		        
+		      ElseIf Me.CtrlArrayBefore(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayBefore(i)).Height = DesktopUIControl(CtrlArrayBefore(i)).Height + dy
+		        
 		      Else
 		        ContainerControl(CtrlArrayBefore(i)).Height = ContainerControl(CtrlArrayBefore(i)).Height + dy
 		        
@@ -300,6 +329,9 @@ Inherits Canvas
 		      
 		      If Me.CtrlArrayBefore(i) IsA RectControl Then
 		        RectControl(CtrlArrayBefore(i)).Width = RectControl(CtrlArrayBefore(i)).Width + dx
+		        
+		      ElseIf Me.CtrlArrayBefore(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayBefore(i)).Width = DesktopUIControl(CtrlArrayBefore(i)).Width + dx
 		        
 		      Else
 		        ContainerControl(CtrlArrayBefore(i)).Width = ContainerControl(CtrlArrayBefore(i)).Width + dx
@@ -329,6 +361,9 @@ Inherits Canvas
 		      If Me.CtrlArrayBeforeNoResize(i) IsA RectControl Then
 		        RectControl(CtrlArrayBeforeNoResize(i)).Top = RectControl(CtrlArrayBeforeNoResize(i)).Top + dy
 		        
+		      ElseIf Me.CtrlArrayBeforeNoResize(i) IsA DesktopUIControl Then
+		        DesktopUIControl(CtrlArrayBeforeNoResize(i)).Top = DesktopUIControl(CtrlArrayBeforeNoResize(i)).Top + dy
+		        
 		      Elseif Me.CtrlArrayBeforeNoResize(i) IsA ContainerControl Then
 		        ContainerControl(CtrlArrayBeforeNoResize(i)).Top = ContainerControl(CtrlArrayBeforeNoResize(i)).Top + dy
 		      End If
@@ -338,7 +373,10 @@ Inherits Canvas
 		      If Me.CtrlArrayBeforeNoResize(i) IsA RectControl Then
 		        RectControl(Me.CtrlArrayBeforeNoResize(i)).Left = RectControl(CtrlArrayBeforeNoResize(i)).Left + dx
 		        
-		      Elseif Me.CtrlArrayBeforeNoResize(i) IsA ContainerControl Then
+		      ElseIf Me.CtrlArrayBeforeNoResize(i) IsA DesktopUIControl Then
+		        DesktopUIControl(Me.CtrlArrayBeforeNoResize(i)).Left = DesktopUIControl(CtrlArrayBeforeNoResize(i)).Left + dx
+		        
+		      ElseIf Me.CtrlArrayBeforeNoResize(i) IsA ContainerControl Then
 		        ContainerControl(CtrlArrayBeforeNoResize(i)).Left = ContainerControl(CtrlArrayBeforeNoResize(i)).Left + dx
 		      End If
 		      
@@ -1107,30 +1145,52 @@ Inherits Canvas
 
 	#tag ViewBehavior
 		#tag ViewProperty
-			Name="AcceptFocus"
-			Visible=true
-			Group="Behavior"
-			Type="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="AcceptTabs"
-			Visible=true
-			Group="Behavior"
-			Type="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="AutoDeactivate"
+			Name="AllowAutoDeactivate"
 			Visible=true
 			Group="Appearance"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Tooltip"
+			Visible=true
+			Group="Appearance"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="AllowFocusRing"
+			Visible=true
+			Group="Appearance"
+			InitialValue="True"
+			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="AllowFocus"
+			Visible=true
+			Group="Behavior"
+			InitialValue="False"
+			Type="Boolean"
+			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="AllowTabs"
+			Visible=true
+			Group="Behavior"
+			InitialValue="False"
+			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Backdrop"
 			Visible=true
 			Group="Appearance"
+			InitialValue=""
 			Type="Picture"
-			EditorType="Picture"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DockAfter"
@@ -1138,6 +1198,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DockAfterSize"
@@ -1145,6 +1206,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="40"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DockBefore"
@@ -1152,6 +1214,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DockBeforeSize"
@@ -1159,6 +1222,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="40"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DoubleBuffer"
@@ -1166,6 +1230,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="DoubleClickAction"
@@ -1186,6 +1251,7 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="False"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Enabled"
@@ -1193,13 +1259,7 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="True"
 			Type="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="EraseBackground"
-			Visible=true
-			Group="Behavior"
-			InitialValue="True"
-			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="HandlesColor"
@@ -1207,6 +1267,7 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="&c00000000"
 			Type="Color"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="HasBackColor"
@@ -1214,6 +1275,7 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="False"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Height"
@@ -1221,35 +1283,37 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="200"
 			Type="Integer"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="HelpTag"
-			Visible=true
-			Group="Appearance"
-			Type="String"
-			EditorType="MultiLineEditor"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="Integer"
-			EditorType="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="InitialParent"
+			Visible=false
 			Group="Initial State"
+			InitialValue=""
 			Type="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="IsDocked"
+			Visible=false
 			Group="Behavior"
 			InitialValue="False"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="IsDockedPosition"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="imSplitterIs"
 			EditorType="Enum"
 			#tag EnumValues
@@ -1262,31 +1326,41 @@ Inherits Canvas
 			Name="Left"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockBottom"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockLeft"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockRight"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="LockTop"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="MinAfterArea"
@@ -1294,6 +1368,7 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="20"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="MinBeforeArea"
@@ -1301,18 +1376,23 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="30"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Name"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
-			EditorType="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="PositionBeforeDock"
+			Visible=false
 			Group="Behavior"
+			InitialValue=""
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="SplitterColor"
@@ -1320,13 +1400,15 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="&c000000"
 			Type="Color"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
+			InitialValue=""
 			Type="String"
-			EditorType="String"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="TabIndex"
@@ -1334,12 +1416,15 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="TabPanelIndex"
+			Visible=false
 			Group="Position"
 			InitialValue="0"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="TabStop"
@@ -1347,12 +1432,15 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Top"
 			Visible=true
 			Group="Position"
+			InitialValue=""
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Transparent"
@@ -1360,13 +1448,7 @@ Inherits Canvas
 			Group="Behavior"
 			InitialValue="True"
 			Type="Boolean"
-			EditorType="Boolean"
-		#tag EndViewProperty
-		#tag ViewProperty
-			Name="UseFocusRing"
-			Group="Appearance"
-			InitialValue="False"
-			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Visible"
@@ -1374,6 +1456,7 @@ Inherits Canvas
 			Group="Appearance"
 			InitialValue="True"
 			Type="Boolean"
+			EditorType=""
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Width"
@@ -1381,6 +1464,7 @@ Inherits Canvas
 			Group="Position"
 			InitialValue="10"
 			Type="Integer"
+			EditorType=""
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
